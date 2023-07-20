@@ -1,19 +1,27 @@
 # Todo-Task
 Task -C-create R-Read U-Update E-Edit D-Delete
 #Localhost backend End Point- 
+<p></p>
 locally run backend using command- npm start-http://localhost:8080
+<br/>
 Get Data-http://localhost:8080/todo/
+<br/>
 Create data-http://localhost:8080/todo/create
+<br/>
 Update Data-http://localhost:8080/todo/edit/Id
+<br/>
 Delete data-http://localhost:8080/todo/delete/ID
+<br/>
 
 
 <br/>
 <p></p>
 <p></p>
 #Localy Run Frontend 
+<p></p>
 using Command-npm start-http://localhost:3000
-#Landing Page---------
+<p></p>
+<h1>Landing Page---------</h1>
 <p></p>
 
 <h2> After that You can see this type of UI-</h2>
