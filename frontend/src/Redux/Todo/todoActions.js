@@ -22,9 +22,10 @@ export const getTodos = () => async (dispatch) => {
 
     try {
       // Make an API request using Axios
-      const response = await axios.get('http://localhost:8080/todo', config);
+      const response = await axios.get('http://localhost:8080/todo', config.headers);
 
       // Dispatch an action with the retrieved data
+      console.log("ressss",response);
       dispatch({
         type:GET_TODOS_SUCCESS,
         payload: response.data

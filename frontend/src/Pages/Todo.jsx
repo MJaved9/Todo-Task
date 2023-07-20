@@ -10,56 +10,64 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useState,useEffect } from "react";
-import axios from "axios"
-
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addTodo,
+  getTodos,
+  deleteTodo,
+  updateTodo,
+} from "../Redux/Todo/todoActions";
 const Todo = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.todoReducer.todos);
 
   const headers = {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json'
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
   };
-  
 
   const getData = () => {
     fetch("http://localhost:8080/todo", {
-        method : "GET",
-        headers
+      method: "GET",
+      headers,
     })
-    .then((res) => res.json())
-    .then((res)=>console.log(res))
-    .then((res) => setTodos(res))
-    .catch((err) => console.log(err))
-}
+      .then((res) => res.json())
+      .then((res) => console.log("Ress", res))
+      .then((res) => setTodos(res))
+      .catch((err) => console.log(err));
+  };
 
-const handleAddTodo=()=>{
-  axios.post("http://localhost:8080/todo/create", newTodo, { headers })
-  .then(response => {
-    // Handle the response
-    console.log(response);
-  })
-  .catch(error => {
-    // Handle any errors that occurred during the request
-    console.error(error);
-  });
+  const handleAddTodo = async () => {
+    // http://localhost:8080/todo/create
+    try {
+      const response = await fetch("http://localhost:8080/todo/create", {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(newTodo),
+      });
 
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
-}
-const handleDeleteTodo=()=>{
+      const data = await response.json();
+      console.log("Data fetched successfully!", data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const handleDeleteTodo = () => {};
+  const handleToggleTodo = () => {};
 
-}
-const handleToggleTodo=()=>{
-  
-}
-
-
-useEffect(() => {
-    getData()
-},[])
+  useEffect(() => {
+    getData();
+  }, []);
 
   if (token === null || token === "Email or password Wrong..") {
     return (
@@ -82,22 +90,22 @@ useEffect(() => {
     return (
       <Box padding="5% 15% 5% 5%">
         <Heading>Todo App...</Heading>
-        <br/>
+        <br />
         <center>
-        <Box maxW="sm" borderWidth="1px" borderRadius="lg" p="4" >
-          <FormControl mb="4">
-            <FormLabel>Add New Todo</FormLabel>
-            <Input
-              type="text"
-              value={newTodo}
-              onChange={(e) => setNewTodo(e.target.value)}
-              placeholder="Enter a todo item"
-            />
-          </FormControl>
-          <Button colorScheme="teal" onClick={handleAddTodo}>
-            Add Todo
-          </Button>
-          {/* <Stack mt="4" spacing="2">
+          <Box maxW="sm" borderWidth="1px" borderRadius="lg" p="4">
+            <FormControl mb="4">
+              <FormLabel>Add New Todo</FormLabel>
+              <Input
+                type="text"
+                // value={newTodo}
+                onChange={(e) => setNewTodo(e.target.value)}
+                placeholder="Enter a todo item"
+              />
+            </FormControl>
+            <Button colorScheme="teal" onClick={handleAddTodo}>
+              Add Todo
+            </Button>
+            <Stack mt="4" spacing="2">
             {todos.map((ele,index)=>{
               return <Box key={index} borderWidth="1px" borderRadius="md" p="2">
               <Checkbox
@@ -119,8 +127,8 @@ useEffect(() => {
               </Button>
             </Box>
             })}
-          </Stack> */}
-        </Box>
+          </Stack>
+          </Box>
         </center>
       </Box>
     );

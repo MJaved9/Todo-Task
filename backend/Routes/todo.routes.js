@@ -28,7 +28,7 @@ TodosController.post("/create",async(req,res)=>{
 
 TodosController.delete("/delete/:todoId",async(req,res)=>{
     const {todoId}=req.params
-    const deleteTodo=await todoModel.findByIdAndDelete({_id:todoId.at,userId:req.body.userId})
+    const deleteTodo=await todoModel.findOneAndDelete({_id:todoId,userId:req.body.userId})
     if(deleteTodo){
         res.send("deleted")
     }
@@ -39,14 +39,14 @@ TodosController.delete("/delete/:todoId",async(req,res)=>{
 
 TodosController.patch("/edit/:todoId",async(req,res)=>{
     const {todoId}=req.params
-    const updateTodo=await todoModel.findOneAndUpdate({_id:todoId,userId:req.body.userId},{...req.body})
+    const updateTodo=await todoModel.findOneAndUpdate({_id:todoId,userId:req.body.userId},req.body)
     if(updateTodo){
         res.send("Updated")
     }
     else{
         res.send("could't Updated..")
     }
-    
+
 })
 TodosController.get("/:id",async(req,res)=>{
     const {id}=req.params

@@ -5,9 +5,10 @@ import { LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL } from './ty
 export const login = (email,password) => async (dispatch) => {
   try {
     const res = await axios.post('http://localhost:8080/user/login', { email,password});
+    console.log(res);
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res,
+      payload: res.data,
     });
   } catch (error) {
     dispatch({

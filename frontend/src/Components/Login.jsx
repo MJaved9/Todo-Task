@@ -29,9 +29,8 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const loginHandle = () => {
-    dispatch(login(email,password)).then((r) => {
+    dispatch(login(email,password)).then((res) => {
         alert("Login Done...")
-        console.log("rr",r)
       // navigate("/", { replace: true });
     });
     console.log(email,password)
